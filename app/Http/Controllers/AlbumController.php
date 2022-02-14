@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAlbumRequest;
 use App\Http\Requests\UpdateAlbumRequest;
 use App\Models\Album;
+use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AlbumController extends Controller
 {
@@ -51,8 +53,14 @@ class AlbumController extends Controller
         $request->file('portada')->storeAs(
             'portadas',
             $album->id . '.jpg',
-            'public',
+            'local',
         );
+        $img = Image::make(storage_path('app/portadas/' . $album->id . '.jpg'));
+        $img->resize(300, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $img->save(public_path('storage/portadas/' . $album->id . '.jpg'));
+        Storage::disk('local')->delete('portadas/' . $album->id . '.jpg');
         return redirect()->route('albumes.index');
     }
 
@@ -99,5 +107,11 @@ class AlbumController extends Controller
     public function destroy(Album $album)
     {
         //
+    }
+
+    public function descargar(Album $album)
+    {
+        $img = 'portadas/' . $album->id . '.jpg';
+        return Storage::download($img);
     }
 }

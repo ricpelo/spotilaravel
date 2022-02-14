@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AlbumController;
+use App\Mail\Prueba;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,5 +26,12 @@ Route::get('/dashboard', function () {
 
 Route::resource('albumes', AlbumController::class)
     ->parameters(['albumes' => 'album']);
+
+Route::get('/albumes/{album}/descargar', [AlbumController::class, 'descargar'])
+    ->name('albumes-descargar');
+
+Route::get('/correo', function () {
+    Mail::to('ricardo@iesdonana.org')->send(new Prueba('Manolito'));
+});
 
 require __DIR__.'/auth.php';
