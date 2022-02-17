@@ -34,4 +34,12 @@ Route::get('/correo', function () {
     Mail::to('ricardo@iesdonana.org')->send(new Prueba('Manolito'));
 });
 
+Route::get('/alpine', function () {
+    return view('alpine');
+});
+
+Route::get('/contact', function ($json) {
+    return $json;
+});
+
 require __DIR__.'/auth.php';

@@ -59,6 +59,7 @@ class AlbumController extends Controller
         $img->resize(300, null, function ($constraint) {
             $constraint->aspectRatio();
         });
+        // $img->save(storage_path('public/portadas/' . $album->id . '.jpg'));
         $img->save(public_path('storage/portadas/' . $album->id . '.jpg'));
         Storage::disk('local')->delete('portadas/' . $album->id . '.jpg');
         return redirect()->route('albumes.index');
