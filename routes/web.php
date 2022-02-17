@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AlbumController;
+use App\Http\Livewire\Contador;
 use App\Mail\Prueba;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -41,5 +42,7 @@ Route::get('/alpine', function () {
 Route::get('/contact', function ($json) {
     return $json;
 });
+
+Route::get('/contador', Contador::class);
 
 require __DIR__.'/auth.php';
