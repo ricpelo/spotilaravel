@@ -12,4 +12,9 @@ class Tema extends Model
     protected $casts = [
         'duracion' => 'interval',
     ];
+
+    public function album()
+    {
+        return $this->belongsTo(Album::class);
+    }
 }

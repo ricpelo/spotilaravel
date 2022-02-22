@@ -5,12 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAlbumRequest;
 use App\Http\Requests\UpdateAlbumRequest;
 use App\Models\Album;
+use Illuminate\Http\Client\Response;
 use Intervention\Image\ImageManagerStatic as Image;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class AlbumController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Album::class, 'album');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -51,17 +56,17 @@ class AlbumController extends Controller
         $album = new Album($validados);
         $album->save();
         $request->file('portada')->storeAs(
-            'portadas',
+            'caratulas',
             $album->id . '.jpg',
             'local',
         );
-        $img = Image::make(storage_path('app/portadas/' . $album->id . '.jpg'));
+        $img = Image::make(storage_path('app/caratulas/' . $album->id . '.jpg'));
         $img->resize(300, null, function ($constraint) {
             $constraint->aspectRatio();
         });
-        // $img->save(storage_path('public/portadas/' . $album->id . '.jpg'));
-        $img->save(public_path('storage/portadas/' . $album->id . '.jpg'));
-        Storage::disk('local')->delete('portadas/' . $album->id . '.jpg');
+        Storage::makeDirectory('public/caratulas');
+        $img->save(public_path('storage/caratulas/' . $album->id . '.jpg'));
+        Storage::disk('local')->delete('caratulas/' . $album->id . '.jpg');
         return redirect()->route('albumes.index');
     }
 
@@ -112,7 +117,7 @@ class AlbumController extends Controller
 
     public function descargar(Album $album)
     {
-        $img = 'portadas/' . $album->id . '.jpg';
-        return Storage::download($img);
+        $img = storage_path('app/public/portadas/' . $album->id . '.jpg');
+        return response()->download($img);
     }
 }

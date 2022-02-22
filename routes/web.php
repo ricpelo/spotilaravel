@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\TemaController;
+use App\Http\Livewire\Albumes;
 use App\Http\Livewire\Contador;
 use App\Mail\Prueba;
 use Illuminate\Support\Facades\Mail;
@@ -28,6 +30,10 @@ Route::get('/dashboard', function () {
 Route::resource('albumes', AlbumController::class)
     ->parameters(['albumes' => 'album']);
 
+Route::resource('temas', TemaController::class);
+
+Route::get('/album/{album}/tema/{tema:id}', [TemaController::class, 'show']);
+
 Route::get('/albumes/{album}/descargar', [AlbumController::class, 'descargar'])
     ->name('albumes-descargar');
 
@@ -44,5 +50,7 @@ Route::get('/contact', function ($json) {
 });
 
 Route::get('/contador', Contador::class);
+
+Route::get('albumes-lw', Albumes::class);
 
 require __DIR__.'/auth.php';

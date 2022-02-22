@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTemaRequest;
 use App\Http\Requests\UpdateTemaRequest;
+use App\Models\Album;
 use App\Models\Tema;
 
 class TemaController extends Controller
@@ -45,9 +46,9 @@ class TemaController extends Controller
      * @param  \App\Models\Tema  $tema
      * @return \Illuminate\Http\Response
      */
-    public function show(Tema $tema)
+    public function show(Album $album, Tema $tema)
     {
-        //
+        return $tema->nombre;
     }
 
     /**

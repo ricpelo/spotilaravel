@@ -12,4 +12,9 @@ class Album extends Model
     protected $table = 'albumes';
 
     public $fillable = ['titulo', 'autor'];
+
+    public function temas()
+    {
+        return $this->hasMany(Tema::class);
+    }
 }
