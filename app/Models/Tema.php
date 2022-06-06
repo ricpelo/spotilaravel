@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Interval;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +11,7 @@ class Tema extends Model
     use HasFactory;
 
     protected $casts = [
-        'duracion' => 'interval',
+        'duracion' => Interval::class,
     ];
 
     public function album()
